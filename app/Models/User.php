@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable ;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_banned',
+
     ];
 
     /**
@@ -43,5 +46,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function experiences() {
+        return $this->hasMany(Experience::class);
+    }
+
+     public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
+     public function favorites() {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function moderations() {
+        return $this->hasMany(Moderation::class, 'admin_id');
     }
 }
