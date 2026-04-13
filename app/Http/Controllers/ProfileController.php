@@ -57,4 +57,26 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+   public function show()
+{
+    $user = auth()->user();
+    $myExperiences = $user->experiences()->with(['photos', 'place'])->latest()->get();
+    $places = \App\Models\Place::all();
+    
+    // Assuming you have a 'likes' relationship or count
+    $likesCount = $user->experiences()->withCount('likes')->get()->sum('likes_count');
+
+    return view('profile', compact('user', 'myExperiences', 'places', 'likesCount'));
+}
+
+public function updateBio(Request $request)
+{
+    $request->validate(['bio' => 'nullable|string|max:500']);
+    
+    auth()->user()->update(['bio' => $request->bio]);
+
+    return back()->with('success', 'Bio updated!');
+}
 }
