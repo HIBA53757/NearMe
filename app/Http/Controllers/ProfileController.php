@@ -79,4 +79,22 @@ public function updateBio(Request $request)
 
     return back()->with('success', 'Bio updated!');
 }
+
+public function updatePhoto(Request $request)
+{
+    $request->validate([
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $user = auth()->user();
+
+    if ($request->hasFile('photo')) {
+        $path = $request->file('photo')->store('profile_photos', 'public');
+        $user->update([
+            'profile_photo' => $path
+        ]);
+    }
+
+    return back()->with('success', 'Profile photo updated!');
+}
 }
