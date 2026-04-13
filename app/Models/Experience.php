@@ -36,4 +36,9 @@ class Experience extends Model
     public function favorites() {
         return $this->hasMany(Favorite::class);
     }
+
+    public function likes()
+{
+    return $this->belongsToMany(User::class, 'experience_user');
+}
 }
