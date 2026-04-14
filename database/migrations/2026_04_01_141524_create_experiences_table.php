@@ -14,17 +14,16 @@ return new class extends Migration
        Schema::create('experiences', function (Blueprint $table) {
     $table->id();
     $table->string('title');
+    $table->string('address')->nullable();
     $table->text('content');
-
     $table->integer('rating')->nullable(); 
-    $table->string('time_of_day')->nullable(); 
-        $table->string('ambiance')->nullable();   
-        $table->string('activity_type')->nullable(); 
-        $table->string('crowd_level')->nullable();  
+    $table->string('time_of_day')->nullable();    
+    $table->string('ambiance')->nullable();       
+    $table->string('activity_type')->nullable();  
+    $table->string('crowd_level')->nullable();    
 
     $table->foreignId('user_id')->constrained()->onDelete('cascade');
     $table->foreignId('place_id')->constrained()->onDelete('cascade');
-
     $table->timestamps();
 });
     }

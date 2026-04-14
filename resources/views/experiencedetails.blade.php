@@ -31,7 +31,27 @@
                             <h1 class="text-5xl font-black text-[#561c24] leading-tight">{{ $experience->title }}</h1>
                         </div>
 
-                        <div class="space-y-4">
+                        {{-- Metadata Grid (Bento Style) --}}
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-[#f9f5f0] p-4 rounded-3xl flex flex-col justify-center">
+                                <span class="text-[9px] font-black text-[#c7b7a3] uppercase tracking-widest mb-1">Moment</span>
+                                <p class="text-[#561c24] font-bold capitalize">{{ $experience->time_of_day ?? 'N/A' }}</p>
+                            </div>
+                            <div class="bg-[#f9f5f0] p-4 rounded-3xl flex flex-col justify-center">
+                                <span class="text-[9px] font-black text-[#c7b7a3] uppercase tracking-widest mb-1">Ambiance</span>
+                                <p class="text-[#561c24] font-bold capitalize">{{ $experience->ambiance ?? 'N/A' }}</p>
+                            </div>
+                            <div class="bg-[#f9f5f0] p-4 rounded-3xl flex flex-col justify-center">
+                                <span class="text-[9px] font-black text-[#c7b7a3] uppercase tracking-widest mb-1">Activité</span>
+                                <p class="text-[#561c24] font-bold capitalize">{{ str_replace('_', ' ', $experience->activity_type) ?? 'N/A' }}</p>
+                            </div>
+                            <div class="bg-[#f9f5f0] p-4 rounded-3xl flex flex-col justify-center">
+                                <span class="text-[9px] font-black text-[#c7b7a3] uppercase tracking-widest mb-1">Affluence</span>
+                                <p class="text-[#561c24] font-bold capitalize">{{ $experience->crowd_level ?? 'N/A' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
                             <h4 class="text-[10px] font-black text-[#c7b7a3] uppercase tracking-widest flex items-center gap-2">
                                 <span class="w-4 h-px bg-[#c7b7a3]"></span> Location
                             </h4>
@@ -39,12 +59,10 @@
                         </div>
 
                         <div class="prose prose-stone">
-                            <p class="text-xl text-[#6d2932]/80 font-light leading-relaxed">
+                            <p class="text-xl text-[#6d2932]/80 font-light leading-relaxed whitespace-pre-line">
                                 {{ $experience->content }}
                             </p>
                         </div>
-
-                        //
                     </div>
                 </div>
 
