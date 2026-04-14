@@ -21,6 +21,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
 
+    Route::get('/mapcard', function () {
+        return view('mapcard');
+    })->name('mapcard');
+
+    Route::get('/saved', function () {
+        return view('saved');
+    })->name('saved');
+
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
 
     Route::post('/experiences', [ExperienceController::class, 'store'])->name('experiences.store');

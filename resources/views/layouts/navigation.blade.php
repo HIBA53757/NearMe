@@ -13,6 +13,16 @@
                         class="text-[#c7b7a3] hover:text-[#6d2932] border-transparent hover:border-[#6d2932] transition transition-colors duration-300">
                         {{ __('Explore') }}
                     </x-nav-link>
+
+                    <x-nav-link href="/mapcard" :active="request()->is('mapcard')" 
+                        class="text-[#c7b7a3] hover:text-[#6d2932] border-transparent hover:border-[#6d2932] transition transition-colors duration-300">
+                        {{ __('Map') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="/saved" :active="request()->is('saved')" 
+                        class="text-[#c7b7a3] hover:text-[#6d2932] border-transparent hover:border-[#6d2932] transition transition-colors duration-300">
+                        {{ __('Saved') }}
+                    </x-nav-link>
                 </div>
             </div>
 
