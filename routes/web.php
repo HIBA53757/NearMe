@@ -24,6 +24,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/experiences', [ExperienceController::class, 'store'])->name('experiences.store');
 
+    Route::get('/experiences/{experience}', [ExperienceController::class, 'show'])
+    ->name('experiences.show');
+
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
 
 

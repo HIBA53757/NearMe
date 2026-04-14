@@ -11,6 +11,7 @@ class Experience extends Model
 
     protected $fillable = [
         'title',
+        'address',
         'content',
         'rating',
         'user_id',

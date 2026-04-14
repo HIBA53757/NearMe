@@ -13,9 +13,9 @@
                             <div class="w-44 h-44 rounded-[3rem] bg-[#561c24] p-1 rotate-3 group-hover:rotate-0 transition-all duration-500 shadow-2xl overflow-hidden">
                                 <div class="w-full h-full rounded-[2.8rem] bg-[#561c24] flex items-center justify-center text-6xl text-white font-thin overflow-hidden border-4 border-white">
                                     @if($user->profile_photo)
-                                    <img src="{{ asset('storage/' . $user->profile_photo) }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset('storage/' . $user->profile_photo) }}" class="w-full h-full object-cover">
                                     @else
-                                    {{ substr($user->name, 0, 1) }}
+                                        {{ substr($user->name, 0, 1) }}
                                     @endif
                                 </div>
                             </div>
@@ -85,8 +85,7 @@
 
             <div class="columns-1 sm:columns-2 lg:columns-4 gap-6 space-y-6 px-4">
                 @forelse($myExperiences as $exp)
-                <div class="break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
-
+                <a href="{{ route('experiences.show', $exp->id) }}" class="block break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
                     <div class="relative overflow-hidden aspect-[4/5]">
                         <img src="{{ $exp->photos->first() ? asset('storage/'.$exp->photos->first()->path) : 'https://picsum.photos/seed/'.$exp->id.'/400/500' }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
@@ -113,12 +112,11 @@
                                 @for($i=0; $i<$exp->rating; $i++) ★ @endfor
                             </div>
                         </div>
-
                         <h5 class="font-black text-lg text-[#1a1a1a] leading-tight group-hover:text-[#561c24] transition-colors">
                             {{ $exp->title }}
                         </h5>
                     </div>
-                </div>
+                </a>
                 @empty
                 <div class="col-span-full py-24 bg-white/50 rounded-[3rem] border-2 border-dashed border-[#c7b7a3] text-center">
                     <p class="text-[#561c24] font-bold text-sm uppercase tracking-widest opacity-40">Aucun souvenir partagé ici.</p>
@@ -149,10 +147,9 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <select name="place_id" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold">
                                     @foreach($places as $place)
-                                    <option value="{{ $place->id }}">{{ $place->name }}</option>
+                                        <option value="{{ $place->id }}">{{ $place->name }}</option>
                                     @endforeach
                                 </select>
-
 
                                 <div class="rounded-2xl border-2 border-[#e8d8c4] p-4">
                                     <label class="block text-xs font-bold text-[#6d2932] uppercase mb-1">Rating</label>
@@ -164,8 +161,13 @@
                                         <option value="1">⭐</option>
                                     </select>
                                 </div>
+                            </div>
 
-
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-[#561c24] uppercase tracking-widest ml-2">Location Address</label>
+                                <input type="text" name="address" 
+                                    class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" 
+                                    placeholder="123 Street Name, City...">
                             </div>
 
                             <textarea name="content" rows="5" required class="w-full bg-[#f9f5f0] border-none rounded-3xl p-6 focus:ring-2 focus:ring-[#561c24] text-[#561c24] placeholder:text-[#c7b7a3]" placeholder="Write the narrative..."></textarea>

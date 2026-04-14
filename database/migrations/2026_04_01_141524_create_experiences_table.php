@@ -16,7 +16,7 @@ return new class extends Migration
     $table->string('title');
     $table->text('content');
 
-    $table->integer('rating')->nullable(); // 1..5 optional
+    $table->integer('rating')->nullable(); 
 
     $table->foreignId('user_id')->constrained()->onDelete('cascade');
     $table->foreignId('place_id')->constrained()->onDelete('cascade');

@@ -23,6 +23,7 @@ public function store(Request $request)
     
     $request->validate([
         'title' => 'required|string|max:255',
+        'address' => 'nullable|string|max:500',
         'content' => 'required|string',
         'place_id' => 'required|exists:places,id',
         'rating' => 'nullable|integer|min:1|max:5',
@@ -32,6 +33,7 @@ public function store(Request $request)
     DB::transaction(function () use ($request) {
         $experience = Experience::create([
             'title' => $request->title,
+            'address'  => $request->address,
             'content' => $request->content,
             'rating' => $request->rating,
             'place_id' => $request->place_id,
@@ -51,6 +53,14 @@ public function store(Request $request)
     });
 
     return redirect()->route('profile')->with('status', 'Experience shared successfully!');
+}
+
+
+public function show(Experience $experience)
+{
+    $experience->load(['photos', 'place']);
+    
+    return view('experiencedetails', compact('experience'));
 }
 
 }
