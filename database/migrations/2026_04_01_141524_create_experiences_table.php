@@ -17,6 +17,10 @@ return new class extends Migration
     $table->text('content');
 
     $table->integer('rating')->nullable(); 
+    $table->string('time_of_day')->nullable(); 
+        $table->string('ambiance')->nullable();   
+        $table->string('activity_type')->nullable(); 
+        $table->string('crowd_level')->nullable();  
 
     $table->foreignId('user_id')->constrained()->onDelete('cascade');
     $table->foreignId('place_id')->constrained()->onDelete('cascade');

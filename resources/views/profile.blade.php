@@ -140,47 +140,91 @@
                             <p class="text-[#c7b7a3] font-bold uppercase text-[10px] tracking-widest mt-2">Document your local discovery</p>
                         </header>
 
-                        <form action="{{ route('experiences.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-                            @csrf
-                            <input type="text" name="title" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" placeholder="Experience Title">
+                       <form action="{{ route('experiences.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    @csrf
+    <input type="text" name="title" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" placeholder="Experience Title">
 
-                            <div class="grid grid-cols-2 gap-4">
-                                <select name="place_id" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold">
-                                    @foreach($places as $place)
-                                        <option value="{{ $place->id }}">{{ $place->name }}</option>
-                                    @endforeach
-                                </select>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {{-- Place Selection --}}
+        <select name="place_id" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold">
+            @foreach($places as $place)
+                <option value="{{ $place->id }}">{{ $place->name }}</option>
+            @endforeach
+        </select>
 
-                                <div class="rounded-2xl border-2 border-[#e8d8c4] p-4">
-                                    <label class="block text-xs font-bold text-[#6d2932] uppercase mb-1">Rating</label>
-                                    <select name="rating" class="w-full border-none p-0 focus:ring-0 text-[#561c24] bg-transparent font-bold">
-                                        <option value="5" selected>⭐⭐⭐⭐⭐</option>
-                                        <option value="4">⭐⭐⭐⭐</option>
-                                        <option value="3">⭐⭐⭐</option>
-                                        <option value="2">⭐⭐</option>
-                                        <option value="1">⭐</option>
-                                    </select>
-                                </div>
-                            </div>
+        {{-- Rating --}}
+        <div class="rounded-2xl border-2 border-[#e8d8c4] p-4 bg-[#f9f5f0]/30">
+            <label class="block text-[10px] font-bold text-[#6d2932] uppercase mb-1">Rating</label>
+            <select name="rating" class="w-full border-none p-0 focus:ring-0 text-[#561c24] bg-transparent font-bold">
+                <option value="5" selected>⭐⭐⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="1">⭐</option>
+            </select>
+        </div>
+    </div>
 
-                            <div class="space-y-1">
-                                <label class="text-[10px] font-black text-[#561c24] uppercase tracking-widest ml-2">Location Address</label>
-                                <input type="text" name="address" 
-                                    class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" 
-                                    placeholder="123 Street Name, City...">
-                            </div>
+    {{-- New Bento Section: Contextual Details --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {{-- Moment --}}
+        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
+            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Moment</label>
+            <select name="time_of_day" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
+                <option value="matin">Matin</option>
+                <option value="après-midi">Après-midi</option>
+                <option value="soir">Soir</option>
+            </select>
+        </div>
 
-                            <textarea name="content" rows="5" required class="w-full bg-[#f9f5f0] border-none rounded-3xl p-6 focus:ring-2 focus:ring-[#561c24] text-[#561c24] placeholder:text-[#c7b7a3]" placeholder="Write the narrative..."></textarea>
+        {{-- Ambiance --}}
+        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
+            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Ambiance</label>
+            <select name="ambiance" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
+                <option value="calme">Calme</option>
+                <option value="animé">Animé</option>
+                <option value="festif">Festif</option>
+                <option value="studieux">Studieux</option>
+            </select>
+        </div>
 
-                            <div class="relative group border-2 border-dashed border-[#e8d8c4] rounded-3xl p-6 text-center hover:bg-[#fdfaf7] transition-all">
-                                <input type="file" name="photos[]" multiple
-                                    @change="images = []; Array.from($event.target.files).forEach(f => images.push(URL.createObjectURL(f)))"
-                                    class="absolute inset-0 opacity-0 cursor-pointer">
-                                <p class="text-xs font-black text-[#561c24] uppercase">Drop Photos or Click</p>
-                            </div>
+        {{-- Activité --}}
+        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
+            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Activité</label>
+            <select name="activity_type" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
+                <option value="travailler">Travailler</option>
+                <option value="étudier">Étudier</option>
+                <option value="se détendre">Détente</option>
+                <option value="amis">Amis/Famille</option>
+            </select>
+        </div>
 
-                            <button type="submit" class="w-full bg-[#561c24] text-white py-5 rounded-3xl font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-[#6d2932] transition-colors">Publish to Feed</button>
-                        </form>
+        {{-- Affluence --}}
+        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
+            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Affluence</label>
+            <select name="crowd_level" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
+                <option value="faible">Faible</option>
+                <option value="moyen">Moyen</option>
+                <option value="élevé">Élevé</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="space-y-1">
+        <label class="text-[10px] font-black text-[#561c24] uppercase tracking-widest ml-2">Location Address</label>
+        <input type="text" name="address" class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" placeholder="123 Street Name, City...">
+    </div>
+
+    <textarea name="content" rows="4" required class="w-full bg-[#f9f5f0] border-none rounded-3xl p-6 focus:ring-2 focus:ring-[#561c24] text-[#561c24] placeholder:text-[#c7b7a3]" placeholder="Share your story..."></textarea>
+
+    {{-- File Upload --}}
+    <div class="relative group border-2 border-dashed border-[#e8d8c4] rounded-3xl p-6 text-center hover:bg-[#fdfaf7] transition-all">
+        <input type="file" name="photos[]" multiple class="absolute inset-0 opacity-0 cursor-pointer">
+        <p class="text-xs font-black text-[#561c24] uppercase">Add Photos</p>
+    </div>
+
+    <button type="submit" class="w-full bg-[#561c24] text-white py-5 rounded-3xl font-black uppercase tracking-[0.2em] shadow-2xl hover:scale-[1.02] transition-transform">Publish Experience</button>
+</form>
                     </div>
 
                     <div class="hidden lg:block bg-[#f9f5f0] rounded-[3rem] p-8 space-y-6 border border-[#e8d8c4]/30">

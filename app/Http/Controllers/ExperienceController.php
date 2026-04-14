@@ -27,7 +27,11 @@ public function store(Request $request)
         'content' => 'required|string',
         'place_id' => 'required|exists:places,id',
         'rating' => 'nullable|integer|min:1|max:5',
-        'photos.*' => 'image|mimes:jpeg,png,jpg|max:2048' // Max 2MB per photo
+        'photos.*' => 'image|mimes:jpeg,png,jpg|max:2048' ,
+        'time_of_day'   => 'nullable|string',
+        'ambiance'      => 'nullable|string',
+        'activity_type' => 'nullable|string',
+        'crowd_level'   => 'nullable|string',
     ]);
 
     DB::transaction(function () use ($request) {
@@ -37,7 +41,12 @@ public function store(Request $request)
             'content' => $request->content,
             'rating' => $request->rating,
             'place_id' => $request->place_id,
-            'user_id' => auth()->id(),
+
+            'time_of_day'   => $request->time_of_day,
+            'ambiance'      => $request->ambiance,
+            'activity_type' => $request->activity_type,
+            'crowd_level'   => $request->crowd_level,
+             'user_id' => auth()->id(),
         ]);
 
         if ($request->hasFile('photos')) {
