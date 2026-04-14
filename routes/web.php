@@ -19,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ExperienceController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
 
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
 
