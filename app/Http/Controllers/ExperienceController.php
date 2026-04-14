@@ -35,19 +35,18 @@ public function store(Request $request)
     ]);
 
     DB::transaction(function () use ($request) {
-        $experience = Experience::create([
-            'title' => $request->title,
-            'address'  => $request->address,
-            'content' => $request->content,
-            'rating' => $request->rating,
-            'place_id' => $request->place_id,
-
-            'time_of_day'   => $request->time_of_day,
-            'ambiance'      => $request->ambiance,
-            'activity_type' => $request->activity_type,
-            'crowd_level'   => $request->crowd_level,
-             'user_id' => auth()->id(),
-        ]);
+       $experience = Experience::create([
+    'title'         => $request->title,
+    'address'       => $request->address,
+    'content'       => $request->content,
+    'rating'        => $request->rating,
+    'place_id'      => $request->place_id,
+    'user_id'       => auth()->id(),
+    'time_of_day'   => $request->time_of_day,   
+    'ambiance'      => $request->ambiance,     
+    'activity_type' => $request->activity_type, 
+    'crowd_level'   => $request->crowd_level,   
+]);
 
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
