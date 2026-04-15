@@ -145,14 +145,13 @@
     <input type="text" name="title" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" placeholder="Experience Title">
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {{-- Place Selection --}}
+
         <select name="place_id" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold">
             @foreach($places as $place)
                 <option value="{{ $place->id }}">{{ $place->name }}</option>
             @endforeach
         </select>
 
-        {{-- Rating --}}
         <div class="rounded-2xl border-2 border-[#e8d8c4] p-4 bg-[#f9f5f0]/30">
             <label class="block text-[10px] font-bold text-[#6d2932] uppercase mb-1">Rating</label>
             <select name="rating" class="w-full border-none p-0 focus:ring-0 text-[#561c24] bg-transparent font-bold">

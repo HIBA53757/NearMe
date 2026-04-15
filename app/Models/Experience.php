@@ -31,7 +31,7 @@ class Experience extends Model
     }
 
     public function favorites() {
-        return $this->hasMany(Favorite::class);
+        return $this->hasMany(Saved::class);
     }
 
     public function likes()

@@ -19,7 +19,6 @@ return new class extends Migration
     $table->decimal('latitude', 10, 7)->nullable();
     $table->decimal('longitude', 10, 7)->nullable();
 
-    $table->foreignId('category_id')->constrained()->onDelete('cascade');
 
     $table->timestamps();
 });
