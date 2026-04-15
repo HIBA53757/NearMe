@@ -54,7 +54,7 @@
                                 @for($i=0; $i < $post->rating; $i++) ★ @endfor
                             </div>
                          
-                            <a href="{{ route('experiences.show', $post->id) }}" class="px-4 py-2 bg-[#e8d8c4]/50 text-[#561c24] text-xs font-black rounded-xl hover:bg-[#561c24] hover:text-white transition uppercase tracking-tighter">
+                          <a href="{{ route('experiences.show', ['experience' => $post->id, 'from' => 'explore']) }}" class="px-4 py-2 bg-[#e8d8c4]/50 text-[#561c24] text-xs font-black rounded-xl hover:bg-[#561c24] hover:text-white transition uppercase tracking-tighter">
                                 View Details
                             </a>
                         </div>

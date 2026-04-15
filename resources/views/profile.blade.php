@@ -85,7 +85,7 @@
 
             <div class="columns-1 sm:columns-2 lg:columns-4 gap-6 space-y-6 px-4">
                 @forelse($myExperiences as $exp)
-                <a href="{{ route('experiences.show', $exp->id) }}" class="block break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
+               <a href="{{ route('experiences.show', ['experience' => $exp->id, 'from' => 'profile']) }}" class="block break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
                     <div class="relative overflow-hidden aspect-[4/5]">
                         <img src="{{ $exp->photos->first() ? asset('storage/'.$exp->photos->first()->path) : 'https://picsum.photos/seed/'.$exp->id.'/400/500' }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
@@ -165,9 +165,8 @@
         </div>
     </div>
 
-    {{-- New Bento Section: Contextual Details --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {{-- Moment --}}
+   
         <div class="bg-[#f9f5f0] p-4 rounded-2xl">
             <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Moment</label>
             <select name="time_of_day" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
@@ -177,7 +176,6 @@
             </select>
         </div>
 
-        {{-- Ambiance --}}
         <div class="bg-[#f9f5f0] p-4 rounded-2xl">
             <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Ambiance</label>
             <select name="ambiance" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
@@ -188,7 +186,6 @@
             </select>
         </div>
 
-        {{-- Activité --}}
         <div class="bg-[#f9f5f0] p-4 rounded-2xl">
             <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Activité</label>
             <select name="activity_type" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
@@ -199,7 +196,6 @@
             </select>
         </div>
 
-        {{-- Affluence --}}
         <div class="bg-[#f9f5f0] p-4 rounded-2xl">
             <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Affluence</label>
             <select name="crowd_level" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
@@ -217,7 +213,6 @@
 
     <textarea name="content" rows="4" required class="w-full bg-[#f9f5f0] border-none rounded-3xl p-6 focus:ring-2 focus:ring-[#561c24] text-[#561c24] placeholder:text-[#c7b7a3]" placeholder="Share your story..."></textarea>
 
-    {{-- File Upload --}}
     <div class="relative group border-2 border-dashed border-[#e8d8c4] rounded-3xl p-6 text-center hover:bg-[#fdfaf7] transition-all">
         <input type="file" name="photos[]" multiple class="absolute inset-0 opacity-0 cursor-pointer">
         <p class="text-xs font-black text-[#561c24] uppercase">Add Photos</p>
