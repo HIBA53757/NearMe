@@ -2,12 +2,10 @@
     <div class="h-screen bg-[#fafafa] text-black/80 overflow-hidden font-sans antialiased selection:bg-black selection:text-white">
         <div class="h-full grid grid-cols-1 lg:grid-cols-12 p-4 gap-4">
             
-            {{-- Left: The Visual Frame --}}
             <div class="lg:col-span-7 relative group rounded-3xl overflow-hidden border border-black/5">
                 <img src="{{ $experience->photos->first() ? asset('storage/'.$experience->photos->first()->path) : 'https://picsum.photos/seed/'.$experience->id.'/1400/1000' }}" 
                      class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out">
                 
-                {{-- Sophisticated Place Tag --}}
                 <div class="absolute top-8 left-8">
                     <div class="backdrop-blur-xl bg-white/60 px-6 py-4 rounded-2xl border border-white/20 flex flex-col shadow-sm">
                         <span class="text-[10px] uppercase tracking-[0.4em] text-black/40 font-bold mb-1">Authenticated Location</span>
@@ -18,7 +16,6 @@
                     </div>
                 </div>
 
-                {{-- Image Overlay Gradient (Subtle for light mode) --}}
                 <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
                 
                 <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
@@ -32,7 +29,6 @@
                 </div>
             </div>
 
-            {{-- Right: The Data & Narrative --}}
             <div class="lg:col-span-5 flex flex-col h-full gap-4">
                 
                 {{-- Section 1: Title & Date --}}
@@ -53,7 +49,6 @@
                     <p class="text-black/40 text-sm font-light italic truncate">{{ $experience->address }}</p>
                 </div>
 
-                {{-- Section 2: Cool Metadata Grid --}}
                 <div class="grid grid-cols-2 gap-4">
                     @php
                         $stats = [
@@ -75,7 +70,6 @@
                     @endforeach
                 </div>
 
-                {{-- Section 3: Narrative --}}
                 <div class="flex-1 bg-white border border-black/5 rounded-3xl p-8 relative overflow-hidden shadow-sm">
                     <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-black">
                         <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9125 16 16.0171 16H19.0171V14.5C19.0171 13.1193 17.8978 12 16.5171 12H15.0171V10H16.5171C19.0024 10 21.0171 12.0147 21.0171 14.5V21H14.017Z"/></svg>
@@ -86,7 +80,6 @@
                         </p>
                     </div>
                     
-                    {{-- Mini Gallery Strip --}}
                     @if($experience->photos->count() > 1)
                     <div class="absolute bottom-6 left-8 right-8 flex gap-3">
                         @foreach($experience->photos->skip(1)->take(3) as $photo)

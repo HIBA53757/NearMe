@@ -1,8 +1,7 @@
 <x-app-layout>
     <div class="min-h-screen bg-[#e8d8c4] py-8 px-4 lg:px-8">
         <div class="max-w-7xl mx-auto">
-            
-            {{-- Header & Search --}}
+  
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
                 <div>
                     <h2 class="text-4xl font-light text-[#561c24] tracking-tight">Explore</h2>
@@ -13,12 +12,10 @@
                 </div>
             </div>
 
-            {{-- Grid of Dynamic Posts --}}
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                 @foreach($experiences as $post)
                 <div class="break-inside-avoid bg-white rounded-[2rem] shadow-lg overflow-hidden border border-white hover:shadow-2xl transition duration-300 group">
                     
-                    {{-- Experience Image --}}
                     <div class="relative overflow-hidden">
                         <img src="{{ $post->photos->first() ? asset('storage/' . $post->photos->first()->path) : 'https://picsum.photos/seed/'.$post->id.'/600/400' }}" 
                              alt="Post image" 
@@ -47,19 +44,16 @@
                             </div>
                         </div>
                         
-                        {{-- Content Preview --}}
                         <h4 class="font-bold text-[#561c24] mb-1">{{ $post->title }}</h4>
                         <p class="text-[#6d2932] text-sm leading-relaxed mb-4 line-clamp-3">
                             {{ $post->content }}
                         </p>
 
-                        {{-- Footer & Link --}}
                         <div class="flex items-center justify-between pt-4 border-t border-[#f9f5f0]">
                             <div class="flex text-[#561c24] text-[10px]">
                                 @for($i=0; $i < $post->rating; $i++) ★ @endfor
                             </div>
-                            
-                            {{-- Clickable Route --}}
+                         
                             <a href="{{ route('experiences.show', $post->id) }}" class="px-4 py-2 bg-[#e8d8c4]/50 text-[#561c24] text-xs font-black rounded-xl hover:bg-[#561c24] hover:text-white transition uppercase tracking-tighter">
                                 View Details
                             </a>
