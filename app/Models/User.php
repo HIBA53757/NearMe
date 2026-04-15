@@ -58,9 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-     public function favorites() {
-        return $this->hasMany(Saved::class);
-    }
+    public function savedExperiences()
+{
+    return $this->belongsToMany(Experience::class, 'saved_experiences')
+                ->withTimestamps();
+}
 
     public function moderations() {
         return $this->hasMany(Moderation::class, 'admin_id');

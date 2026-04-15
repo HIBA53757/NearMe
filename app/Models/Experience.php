@@ -30,9 +30,16 @@ class Experience extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function favorites() {
-        return $this->hasMany(Saved::class);
-    }
+  public function savedByUsers()
+{
+    return $this->belongsToMany(User::class, 'saved_experiences')
+                ->withTimestamps();
+}
+
+public function isSavedBy(User $user)
+{
+    return $this->savedByUsers()->where('user_id', $user->id)->exists();
+}
 
     public function likes()
 {
