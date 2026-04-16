@@ -65,6 +65,11 @@ class User extends Authenticatable
                 ->withTimestamps();
 }
 
+public function likedExperiences()
+{
+    return $this->belongsToMany(Experience::class, 'likes')->withTimestamps();
+}
+
     public function moderations() {
         return $this->hasMany(Moderation::class, 'admin_id');
     }

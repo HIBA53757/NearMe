@@ -41,8 +41,8 @@ public function isSavedBy(User $user)
     return $this->savedByUsers()->where('user_id', $user->id)->exists();
 }
 
-    public function likes()
+ public function likedByUsers()
 {
-    return $this->belongsToMany(User::class, 'experience_user');
+    return $this->belongsToMany(User::class, 'likes');
 }
 }

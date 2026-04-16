@@ -59,14 +59,19 @@ class ProfileController extends Controller
     }
 
 
-   public function show()
+  public function show()
 {
+    /** @var \App\Models\User $user */
     $user = auth()->user();
+    
     $myExperiences = $user->experiences()->with(['photos', 'place'])->latest()->get();
     $places = \App\Models\Place::all();
-    
-    // Assuming you have a 'likes' relationship or count
-    $likesCount = $user->experiences()->withCount('likes')->get()->sum('likes_count');
+
+   
+    $likesCount = $user->experiences()
+        ->withCount('likedByUsers') 
+        ->get()
+        ->sum('liked_by_users_count');
 
     return view('profile', compact('user', 'myExperiences', 'places', 'likesCount'));
 }
