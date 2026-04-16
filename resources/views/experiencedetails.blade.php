@@ -6,13 +6,19 @@
                 <img src="{{ $experience->photos->first() ? asset('storage/'.$experience->photos->first()->path) : 'https://picsum.photos/seed/'.$experience->id.'/1400/1000' }}"
                     class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out">
 
-                <div class="absolute top-8 left-8">
+                {{-- Header Overlay: Location & Save Button --}}
+                <div class="absolute top-8 left-8 right-8 flex justify-between items-start">
                     <div class="backdrop-blur-xl bg-white/60 px-6 py-4 rounded-2xl border border-white/20 flex flex-col shadow-sm">
                         <span class="text-[10px] uppercase tracking-[0.4em] text-black/40 font-bold mb-1">Authenticated Location</span>
                         <div class="flex items-center gap-3">
                             <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                             <h3 class="text-xl font-medium tracking-tight text-black">{{ $experience->place->name }}</h3>
                         </div>
+                    </div>
+
+                    {{-- Save Component Integrated Here --}}
+                    <div class="backdrop-blur-xl bg-white/60 p-1 rounded-2xl border border-white/20 shadow-sm">
+                        <livewire:save-experience :experience="$experience" />
                     </div>
                 </div>
 
@@ -22,7 +28,6 @@
                     @php
                     $backUrl = request('from') === 'profile' ? route('profile') : route('dashboard');
                     @endphp
-
 
                     <a href="{{ $backUrl }}" class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/90 hover:text-white transition-colors">
                         <span class="w-8 h-px bg-white/40 group-hover:w-12 transition-all"></span>

@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function savedExperiences()
 {
-    return $this->belongsToMany(Experience::class, 'saveds', 'user_id', 'experience_id')
+    return $this->belongsToMany(Experience::class, 'saved_experiences', 'user_id', 'experience_id')
                 ->withTimestamps();
 }
 
