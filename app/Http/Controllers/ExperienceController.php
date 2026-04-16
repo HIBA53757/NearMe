@@ -71,4 +71,13 @@ public function show(Experience $experience)
     return view('experiencedetails', compact('experience'));
 }
 
+public function saved()
+{
+    $experiences = auth()->user()->savedExperiences()
+        ->with(['photos', 'place']) 
+        ->get();
+
+    return view('saved', compact('experiences'));
+}
+
 }

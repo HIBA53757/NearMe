@@ -29,33 +29,20 @@ Route::middleware(['auth'])->group(function () {
         return view('saved');
     })->name('saved');
 
-Route::post('/experiences/{experience}/save', [SavedController::class, 'toggle'])
-    ->middleware('auth')
-    ->name('experiences.save');
+    Route::post('/experiences/{experience}/save', [SavedController::class, 'toggle'])
+        ->middleware('auth')
+        ->name('experiences.save');
+
+        Route::get('/saved', [ExperienceController::class, 'saved'])->name('saved');
 
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
 
     Route::post('/experiences', [ExperienceController::class, 'store'])->name('experiences.store');
 
     Route::get('/experiences/{experience}', [ExperienceController::class, 'show'])
-    ->name('experiences.show');
+        ->name('experiences.show');
 
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
 });
 
 require __DIR__ . '/auth.php';
