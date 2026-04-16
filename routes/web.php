@@ -3,7 +3,7 @@
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\savedController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +28,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/saved', function () {
         return view('saved');
     })->name('saved');
+
+Route::post('/experiences/{experience}/save', [SavedController::class, 'toggle'])
+    ->middleware('auth')
+    ->name('experiences.save');
 
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
 
