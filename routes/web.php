@@ -2,47 +2,44 @@
 
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\PlaceController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\savedController;
+use App\Http\Controllers\SavedController; 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminDashboardController; 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::middleware(['auth'])->group(function () {
 
-
-
-
     Route::get('/dashboard', [ExperienceController::class, 'index'])->name('dashboard');
+    
+    //experiences
+    Route::get('/saved', [ExperienceController::class, 'saved'])->name('saved');
+    Route::post('/experiences/{experience}/save', [SavedController::class, 'toggle'])->name('experiences.save');
 
+    // profil
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
-
-    Route::get('/mapcard', function () {
-        return view('mapcard');
-    })->name('mapcard');
-
-    Route::get('/saved', function () {
-        return view('saved');
-    })->name('saved');
-
-    Route::post('/experiences/{experience}/save', [SavedController::class, 'toggle'])
-        ->middleware('auth')
-        ->name('experiences.save');
-
-        Route::get('/saved', [ExperienceController::class, 'saved'])->name('saved');
-
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
 
+    Route::get('/experiences/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
     Route::post('/experiences', [ExperienceController::class, 'store'])->name('experiences.store');
 
-    Route::get('/experiences/{experience}', [ExperienceController::class, 'show'])
-        ->name('experiences.show');
+    Route::get('/mapcard', function () { return view('mapcard'); })->name('mapcard');
+});
 
-    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
+Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('places', PlaceController::class);
+
+    // User Management & Banning
+    Route::post('/users/{user}/ban', [AdminDashboardController::class, 'toggleBan'])->name('users.ban');
 });
 
 require __DIR__ . '/auth.php';

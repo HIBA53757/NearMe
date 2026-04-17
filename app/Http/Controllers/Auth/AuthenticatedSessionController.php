@@ -44,4 +44,13 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    protected function redirectPath()
+{
+    if (auth()->user()->isAdmin()) {
+        return route('admin.dashboard');
+    }
+
+    return route('dashboard');
+}
 }

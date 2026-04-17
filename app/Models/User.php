@@ -73,4 +73,9 @@ public function likedExperiences()
     public function moderations() {
         return $this->hasMany(Moderation::class, 'admin_id');
     }
+
+    public function isAdmin(): bool
+{
+    return $this->role === 'admin';
+}
 }

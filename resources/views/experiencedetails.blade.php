@@ -107,7 +107,7 @@
                     </div>
                     @endif
 
-                    {{-- Comments Section --}}
+    
                     <div class="mt-auto border-t border-black/5 pt-8">
                         <div class="flex items-center gap-2 mb-6 opacity-40">
                             <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Community Feed</span>
