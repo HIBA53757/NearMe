@@ -27,7 +27,7 @@ class Experience extends Model
     }
 
     public function comments() {
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comment::class);
     }
 
   public function savedByUsers()
