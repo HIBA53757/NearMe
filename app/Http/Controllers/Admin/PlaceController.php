@@ -16,6 +16,7 @@ class PlaceController extends Controller
 
 public function store(Request $request)
 {
+
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'latitude' => 'required|numeric|between:-90,90',
@@ -23,12 +24,9 @@ public function store(Request $request)
         'description' => 'nullable|string',
     ]);
 
+
     $place = Place::create($validated);
 
-    if ($place) {
-        return back()->with('success', "Location '{$place->name}' registered successfully.");
-    }
-
-    return back()->with('error', 'Failed to save the location.');
+    return back()->with('success', "Location registered!");
 }
 }

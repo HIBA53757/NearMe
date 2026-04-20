@@ -1,11 +1,26 @@
 <x-admin-layout>
     <div class="min-h-screen bg-[#fafafa] p-8 font-sans text-black/80">
         <div class="max-w-4xl mx-auto space-y-8">
-            
-            {{-- Add New Place Form --}}
+       
             <div class="bg-white border border-black/5 rounded-[2rem] p-8 shadow-sm">
                 <h2 class="text-2xl font-light tracking-tighter mb-6">New Discovery Point</h2>
                 
+@if ($errors->any())
+    <div class="bg-red-50 text-red-500 p-4 rounded-2xl mb-6 text-sm">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if(session('success'))
+    <div class="bg-green-50 text-green-600 p-4 rounded-2xl mb-6 text-sm">
+        {{ session('success') }}
+    </div>
+@endif
+
                 <form action="{{ route('admin.places.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
