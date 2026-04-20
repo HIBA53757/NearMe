@@ -42,4 +42,18 @@ Route::middleware(['auth', 'check_banned', 'can:access-admin'])
         Route::post('/users/{user}/ban', [AdminDashboardController::class, 'toggleBan'])->name('users.ban');
 });
 
+Route::get('/', function () {
+    $featured = \App\Models\Experience::withCount(['likedByUsers', 'comments'])
+                // Laravel converts likedByUsers to liked_by_users_count
+                ->orderBy('liked_by_users_count', 'desc') 
+                ->first();
+
+    $trending = \App\Models\Experience::with('user', 'photos') // Good to eager load these
+                ->latest()
+                ->take(3)
+                ->get();
+
+    return view('welcome', compact('featured', 'trending'));
+});
+
 require __DIR__ . '/auth.php';
