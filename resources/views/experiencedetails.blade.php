@@ -1,124 +1,137 @@
 <x-app-layout>
-    <div class="h-screen bg-[#fafafa] text-black/80 overflow-hidden font-sans antialiased selection:bg-black selection:text-white">
+    {{-- Main Container - Nude Background (#fdfaf7) --}}
+    <div class="h-screen bg-[#fdfaf7] text-[#561c24] overflow-hidden font-sans antialiased selection:bg-[#561c24] selection:text-white">
         <div class="h-full grid grid-cols-1 lg:grid-cols-12 p-4 gap-4">
 
-            <div class="lg:col-span-7 relative group rounded-3xl overflow-hidden border border-black/5">
+            {{-- Left Side: Image Gallery --}}
+            <div class="lg:col-span-7 relative group rounded-[2.5rem] overflow-hidden border border-[#561c24]/5 shadow-2xl bg-white">
                 <img src="{{ $experience->photos->first() ? asset('storage/'.$experience->photos->first()->path) : 'https://picsum.photos/seed/'.$experience->id.'/1400/1000' }}"
-                    class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out">
+                    class="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000 ease-out">
 
-                <div class="absolute top-8 left-8 right-8 flex justify-between items-start">
-                    <div class="backdrop-blur-xl bg-white/60 px-6 py-4 rounded-2xl border border-white/20 flex flex-col shadow-sm">
-                        <span class="text-[10px] uppercase tracking-[0.4em] text-black/40 font-bold mb-1">Authenticated Location</span>
-                        <div class="flex items-center gap-3">
-                            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                            <h3 class="text-xl font-medium tracking-tight text-black">{{ $experience->place->name }}</h3>
+                {{-- Header Overlays: Location --}}
+                <div class="absolute top-8 left-8">
+                    <div class="bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl border border-[#561c24]/10 flex flex-col shadow-xl">
+                        <span class="text-[8px] uppercase tracking-[0.4em] text-[#c7b7a3] font-bold mb-1">Location</span>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-3 h-3 text-[#561c24]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            <h3 class="text-lg font-bold tracking-tight text-[#561c24]">{{ $experience->place->name }}</h3>
                         </div>
-                    </div>
-
-                    <div class="flex items-center gap-1.5 backdrop-blur-xl bg-white/60 p-1.5 rounded-2xl border border-white/20 shadow-sm">
-                        <div class="pl-1">
-                            <livewire:like-experience :experience="$experience" />
-                        </div>
-                        <div class="w-px h-8 bg-black/5 mx-1"></div>
-                        <livewire:save-experience :experience="$experience" />
                     </div>
                 </div>
 
-                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#561c24]/60 via-transparent to-transparent pointer-events-none"></div>
 
+                {{-- Bottom Overlays --}}
                 <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                     @php
-                    $backUrl = request('from') === 'profile' ? route('profile') : route('dashboard');
+                        $backUrl = request('from') === 'profile' ? route('profile') : route('dashboard');
                     @endphp
 
-                    <a href="{{ $backUrl }}" class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/90 hover:text-white transition-colors">
-                        <span class="w-8 h-px bg-white/40 group-hover:w-12 transition-all"></span>
-                        Exit Gallery
+                    <a href="{{ $backUrl }}" class="group flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-white/90 hover:text-white transition-colors">
+                        <span class="w-8 h-[2px] bg-white/40 group-hover:w-12 group-hover:bg-white transition-all"></span>
+                        Back to Feed
                     </a>
 
-                    <div class="text-[10px] font-mono text-white/60 uppercase">
-                        Ref. {{ $experience->id }} // {{ $experience->created_at->format('Y') }}
+                    {{-- Actions Pill (Repositioned to Bottom Right) --}}
+                    <div class="flex items-center gap-3 bg-white/10 backdrop-blur-2xl p-2.5 rounded-full border border-white/20 shadow-2xl">
+                        <div class="flex items-center -gap-1">
+                            <livewire:like-experience :experience="$experience" />
+                            <livewire:save-experience :experience="$experience" />
+                        </div>
                     </div>
                 </div>
             </div>
 
+            {{-- Right Side: Info & Comments --}}
             <div class="lg:col-span-5 flex flex-col h-full gap-4 overflow-hidden">
-
-                <div class="bg-white border border-black/5 rounded-3xl p-8 flex flex-col justify-between shadow-sm">
-                    <div class="flex justify-between items-start mb-6">
-                        <span class="px-3 py-1 rounded-full border border-black/10 text-[10px] font-bold tracking-widest uppercase text-black/60">
+                
+                {{-- Title Card --}}
+                <div class="bg-white border border-[#561c24]/5 rounded-[2.5rem] p-8 shadow-sm relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-[10px] font-black tracking-widest uppercase text-[#c7b7a3]">
                             {{ $experience->created_at->format('M d, Y') }}
                         </span>
-                        <div class="flex gap-1.5">
+                        
+                        {{-- Star Rating System --}}
+                        <div class="flex gap-0.5">
                             @for($i=0; $i<5; $i++)
-                                <div class="w-1.5 h-1.5 rounded-full {{ $i < $experience->rating ? 'bg-black' : 'bg-black/10' }}">
-                                </div>
+                                <svg class="w-4 h-4 {{ $i < $experience->rating ? 'text-[#561c24]' : 'text-[#e8d8c4]' }}" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
                             @endfor
                         </div>
                     </div>
-                    <h1 class="text-4xl lg:text-5xl font-light tracking-tighter leading-none mb-2 text-black">
+                    <h1 class="text-4xl font-serif italic tracking-tighter leading-tight mb-3 text-[#561c24]">
                         {{ $experience->title }}
                     </h1>
-                    <p class="text-black/40 text-sm font-light italic truncate">{{ $experience->address }}</p>
+                    <div class="flex items-center gap-2">
+                        <div class="h-px w-4 bg-[#c7b7a3]"></div>
+                        <p class="text-[#c7b7a3] text-[10px] font-bold uppercase tracking-widest">{{ $experience->address }}</p>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                {{-- Stats Grid --}}
+                <div class="grid grid-cols-4 gap-2">
                     @php
                     $stats = [
-                        ['label' => 'Moment', 'val' => $experience->time_of_day, 'icon' => 'M20 12h-4l-3 9L9 3l-3 9H2'],
-                        ['label' => 'Vibe', 'val' => $experience->ambiance, 'icon' => 'M12 3v1m0 16v1m9-9h-1M4 12H3'],
-                        ['label' => 'Activity', 'val' => str_replace('_', ' ', $experience->activity_type), 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
+                        ['label' => 'Time', 'val' => $experience->time_of_day, 'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'],
+                        ['label' => 'Vibe', 'val' => $experience->ambiance, 'icon' => 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
+                        ['label' => 'Type', 'val' => str_replace('_', ' ', $experience->activity_type), 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
                         ['label' => 'Crowd', 'val' => $experience->crowd_level, 'icon' => 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2']
                     ];
                     @endphp
 
                     @foreach($stats as $stat)
-                    <div class="bg-white border border-black/5 rounded-2xl p-5 hover:bg-gray-50 transition-colors shadow-sm">
-                        <div class="flex items-center gap-3 mb-2 opacity-30">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke="black">
-                                <path d="{{ $stat['icon'] }}" />
-                            </svg>
-                            <span class="text-[9px] uppercase tracking-[0.2em] font-bold text-black">{{ $stat['label'] }}</span>
-                        </div>
-                        <p class="text-sm font-semibold tracking-wide uppercase text-black/80">{{ $stat['val'] ?? 'None' }}</p>
+                    <div class="bg-white border border-[#561c24]/5 rounded-2xl p-3 shadow-sm flex flex-col items-center justify-center text-center">
+                        <svg class="w-4 h-4 mb-1.5 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke="#561c24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="{{ $stat['icon'] }}" />
+                        </svg>
+                        <span class="text-[7px] uppercase tracking-tighter font-black text-[#c7b7a3] mb-0.5">{{ $stat['label'] }}</span>
+                        <p class="text-[9px] font-bold uppercase text-[#561c24] leading-tight">{{ $stat['val'] ?? '-' }}</p>
                     </div>
                     @endforeach
                 </div>
 
-                <div class="flex-1 bg-white border border-black/5 rounded-3xl p-8 relative overflow-hidden shadow-sm flex flex-col">
-                    <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-black">
-                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9125 16 16.0171 16H19.0171V14.5C19.0171 13.1193 17.8978 12 16.5171 12H15.0171V10H16.5171C19.0024 10 21.0171 12.0147 21.0171 14.5V21H14.017Z" />
-                        </svg>
-                    </div>
-                    <div class="prose prose-slate max-w-none overflow-y-auto mb-6 flex-shrink-0">
-                        <p class="text-lg leading-relaxed text-black/60 font-light">
-                            {{ $experience->content }}
-                        </p>
-                    </div>
-
-                    @if($experience->photos->count() > 1)
-                    <div class="flex gap-3 mb-8">
-                        @foreach($experience->photos->skip(1)->take(3) as $photo)
-                        <div class="w-12 h-12 rounded-lg overflow-hidden border border-black/10">
-                            <img src="{{ asset('storage/'.$photo->path) }}" class="w-full h-full object-cover">
-                        </div>
-                        @endforeach
-                    </div>
-                    @endif
-
-    
-                    <div class="mt-auto border-t border-black/5 pt-8">
-                        <div class="flex items-center gap-2 mb-6 opacity-40">
-                            <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Community Feed</span>
-                            <div class="h-px flex-1 bg-black/10"></div>
-                        </div>
+                {{-- Scrollable Content Area --}}
+                <div class="flex-1 bg-white border border-[#561c24]/5 rounded-[2.5rem] shadow-sm flex flex-col overflow-hidden">
+                    <div class="flex-1 overflow-y-auto custom-scrollbar p-8">
                         
-                        <livewire:experience-comments :experience="$experience" />
+                        {{-- Main Story --}}
+                        <div class="relative mb-12">
+                            <p class="text-lg leading-relaxed text-[#561c24]/90 font-light first-letter:text-5xl first-letter:font-serif first-letter:mr-3 first-letter:float-left">
+                                {{ $experience->content }}
+                            </p>
+
+                            @if($experience->photos->count() > 1)
+                            <div class="flex gap-4 mt-10">
+                                @foreach($experience->photos->skip(1)->take(3) as $photo)
+                                <div class="w-20 h-20 rounded-2xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 cursor-zoom-in border border-[#561c24]/10">
+                                    <img src="{{ asset('storage/'.$photo->path) }}" class="w-full h-full object-cover">
+                                </div>
+                                @endforeach
+                            </div>
+                            @endif
+                        </div>
+
+                        {{-- Comments Section --}}
+                        <div class="border-t border-[#561c24]/5 pt-8">
+                            <div class="flex items-center gap-4 mb-8">
+                                <h4 class="text-[10px] font-black uppercase tracking-[0.4em] text-[#561c24]">Journal Entries</h4>
+                                <div class="h-[1px] flex-1 bg-gradient-to-r from-[#561c24]/10 to-transparent"></div>
+                            </div>
+                            
+                            <livewire:experience-comments :experience="$experience" />
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #561c24; border-radius: 10px; }
+    </style>
 </x-app-layout>
