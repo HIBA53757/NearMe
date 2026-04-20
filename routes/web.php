@@ -12,34 +12,38 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'check_banned'])->group(function () {
 
     Route::get('/dashboard', [ExperienceController::class, 'index'])->name('dashboard');
-    
-    //experiences
+
     Route::get('/saved', [ExperienceController::class, 'saved'])->name('saved');
     Route::post('/experiences/{experience}/save', [SavedController::class, 'toggle'])->name('experiences.save');
+    Route::get('/experiences/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
+    Route::post('/experiences', [ExperienceController::class, 'store'])->name('experiences.store');
 
-    // profil
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
 
-    Route::get('/experiences/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
-    Route::post('/experiences', [ExperienceController::class, 'store'])->name('experiences.store');
-
+   //map
     Route::get('/mapcard', function () { return view('mapcard'); })->name('mapcard');
 });
 
-Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->name('admin.')->group(function () {
+/**
+ * ADMIN 
+ * Only accessible to users with 'admin' role via the 'access-admin' Gate.
+ */
+Route::middleware(['auth', 'check_banned', 'can:access-admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('places', PlaceController::class);
+        Route::resource('places', PlaceController::class);
 
-    // User Management & Banning
-    Route::post('/users/{user}/ban', [AdminDashboardController::class, 'toggleBan'])->name('users.ban');
+        Route::post('/users/{user}/ban', [AdminDashboardController::class, 'toggleBan'])->name('users.ban');
 });
 
 require __DIR__ . '/auth.php';
