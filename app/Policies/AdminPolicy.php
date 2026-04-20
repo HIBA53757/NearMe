@@ -6,16 +6,16 @@ use App\Models\User;
 
 class AdminPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+   
+    public function accessAdmin(User $user): bool
     {
-        //
+
+        return $user->role === 'admin' && !$user->banned_at;
     }
 
-    public function manage(User $user)
-{
-    return $user->isAdmin();
-}
+   
+    public function manageUsers(User $user, User $target): bool
+    {
+        return $user->role === 'admin' && $user->id !== $target->id;
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExperienceController;
-use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\Admin\PlaceController;
 use App\Http\Controllers\SavedController; 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController; 
@@ -12,7 +12,7 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['auth', 'check_banned'])->group(function () {
+Route::middleware(['auth', 'check_banned', 'can:access-user'])->group(function () {
 
     Route::get('/dashboard', [ExperienceController::class, 'index'])->name('dashboard');
 
@@ -26,14 +26,10 @@ Route::middleware(['auth', 'check_banned'])->group(function () {
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
 
-   //map
     Route::get('/mapcard', function () { return view('mapcard'); })->name('mapcard');
 });
 
-/**
- * ADMIN 
- * Only accessible to users with 'admin' role via the 'access-admin' Gate.
- */
+
 Route::middleware(['auth', 'check_banned', 'can:access-admin'])
     ->prefix('admin')
     ->name('admin.')

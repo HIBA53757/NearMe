@@ -2,8 +2,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Place;
 use Illuminate\Http\Request;
+use App\Models\Place;
+
 
 class PlaceController extends Controller
 {
@@ -13,17 +14,21 @@ class PlaceController extends Controller
         return view('admin.places.index', compact('places'));
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'description' => 'nullable|string',
-        ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'latitude' => 'required|numeric|between:-90,90',
+        'longitude' => 'required|numeric|between:-180,180',
+        'description' => 'nullable|string',
+    ]);
 
-        Place::create($validated);
+    $place = Place::create($validated);
 
-        return back()->with('success', 'New discovery point added to the map.');
+    if ($place) {
+        return back()->with('success', "Location '{$place->name}' registered successfully.");
     }
+
+    return back()->with('error', 'Failed to save the location.');
+}
 }

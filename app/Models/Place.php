@@ -12,15 +12,12 @@ class Place extends Model
     protected $fillable = [
         'name',
         'description',
-        'address',
         'latitude',
         'longitude',
-        'category_id',
+        'address'
     ];
 
-    public function category() {
-        return $this->belongsTo(Category::class);
-    }
+   
 
     public function experiences() {
         return $this->hasMany(Experience::class);
