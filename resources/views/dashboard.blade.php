@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-[#f7f0e8] py-12 px-4 lg:px-8">
         <div class="max-w-[1600px] mx-auto">
   
-            {{-- Header Section --}}
+        
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-[#561c24]/10 pb-8">
                 <div>
                     <h2 class="text-5xl font-serif italic text-[#561c24] tracking-tight">Explore</h2>
@@ -16,24 +16,24 @@
                 </div>
             </div>
 
-            {{-- Responsive Grid: 1 Col (Mobile), 2 Col (Tablet), 4 Col (Desktop) --}}
+    
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 @foreach($experiences as $post)
                 <div class="flex flex-col bg-white rounded-3xl shadow-[0_10px_30px_-15px_rgba(86,28,36,0.1)] overflow-hidden hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 group">
                     
-                    {{-- Image Container --}}
+                 
                     <div class="relative aspect-[4/5] overflow-hidden">
                         <img src="{{ $post->photos->first() ? asset('storage/' . $post->photos->first()->path) : 'https://picsum.photos/seed/'.$post->id.'/600/800' }}" 
                              alt="{{ $post->title }}" 
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-700 ease-out">
                         
-                        {{-- Location Badge --}}
+                    
                         <div class="absolute top-4 left-4 bg-black/20 backdrop-blur-md border border-white/30 px-4 py-1.5 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
                             {{ $post->place->name ?? 'Local Spot' }}
                         </div>
                     </div>
 
-                    {{-- Content --}}
+        
                     <div class="p-6 flex flex-col flex-grow">
                         <div class="flex items-center mb-5">
                             <div class="relative">
