@@ -1,7 +1,6 @@
 <x-guest-layout>
     <div class="min-h-screen bg-[#fdfaf7] p-4 lg:p-8 font-sans antialiased text-[#561c24]">
-        
-        {{-- Navigation --}}
+    
         <nav class="max-w-7xl mx-auto flex justify-between items-center mb-12 bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] border border-[#561c24]/5 shadow-sm">
             <div class="text-3xl font-serif italic tracking-tighter text-[#561c24]">
                 NearMe<span class="text-[#c7b7a3]">.</span>
@@ -24,8 +23,7 @@
         </nav>
 
         <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            {{-- Featured Experience (Dynamic) --}}
+          
             <div class="lg:col-span-8 bg-white rounded-[3rem] overflow-hidden shadow-2xl border border-[#561c24]/5 group relative min-h-[600px]">
                 @if($featured)
                     <img src="{{ $featured->photos->first() ? asset('storage/'.$featured->photos->first()->path) : 'https://picsum.photos/seed/'.$featured->id.'/1200/800' }}" 
@@ -65,10 +63,9 @@
                 @endif
             </div>
 
-            {{-- Sidebar --}}
             <div class="lg:col-span-4 flex flex-col gap-8">
                 
-                {{-- CTA Card --}}
+          
                 <div class="bg-[#561c24] p-10 rounded-[2.5rem] shadow-2xl text-[#fdfaf7] relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full transition-transform group-hover:scale-150 duration-700"></div>
                     <h3 class="text-3xl font-serif italic mb-4 relative z-10">Document the unseen.</h3>
@@ -80,7 +77,6 @@
                     </a>
                 </div>
 
-                {{-- Trending List (Dynamic) --}}
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-[#561c24]/5 flex-1">
                     <div class="flex items-center justify-between mb-8">
                         <h4 class="text-[#561c24] text-[10px] font-black uppercase tracking-[0.3em]">Latest Registry</h4>
