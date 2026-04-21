@@ -2,6 +2,7 @@
     <div x-data="{ open: false, editBio: false, images: [] }" class="min-h-screen bg-[#fdfaf7] py-12 px-4 lg:px-8">
         <div class="max-w-6xl mx-auto space-y-16">
 
+            {{-- Profile Header Section --}}
             <div class="relative">
                 <div class="absolute -top-10 -left-10 w-64 h-64 bg-[#e8d8c4] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
                 <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-[#561c24] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
@@ -13,9 +14,9 @@
                             <div class="w-44 h-44 rounded-[3rem] bg-[#561c24] p-1 rotate-3 group-hover:rotate-0 transition-all duration-500 shadow-2xl overflow-hidden">
                                 <div class="w-full h-full rounded-[2.8rem] bg-[#561c24] flex items-center justify-center text-6xl text-white font-thin overflow-hidden border-4 border-white">
                                     @if($user->profile_photo)
-                                        <img src="{{ asset('storage/' . $user->profile_photo) }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('storage/' . $user->profile_photo) }}" class="w-full h-full object-cover">
                                     @else
-                                        {{ substr($user->name, 0, 1) }}
+                                    {{ substr($user->name, 0, 1) }}
                                     @endif
                                 </div>
                             </div>
@@ -68,6 +69,7 @@
                 </div>
             </div>
 
+            {{-- Gallery Title & Share Button --}}
             <div class="flex flex-col sm:flex-row justify-between items-end gap-6 px-4">
                 <div class="space-y-2">
                     <h4 class="text-4xl font-black text-[#561c24] tracking-tighter">Personal Gallery</h4>
@@ -83,9 +85,10 @@
                 </button>
             </div>
 
+            {{-- Gallery Cards --}}
             <div class="columns-1 sm:columns-2 lg:columns-4 gap-6 space-y-6 px-4">
                 @forelse($myExperiences as $exp)
-               <a href="{{ route('experiences.show', ['experience' => $exp->id, 'from' => 'profile']) }}" class="block break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
+                <a href="{{ route('experiences.show', ['experience' => $exp->id, 'from' => 'profile']) }}" class="block break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
                     <div class="relative overflow-hidden aspect-[4/5]">
                         <img src="{{ $exp->photos->first() ? asset('storage/'.$exp->photos->first()->path) : 'https://picsum.photos/seed/'.$exp->id.'/400/500' }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
@@ -119,128 +122,136 @@
                 </a>
                 @empty
                 <div class="col-span-full py-24 bg-white/50 rounded-[3rem] border-2 border-dashed border-[#c7b7a3] text-center">
-                    <p class="text-[#561c24] font-bold text-sm uppercase tracking-widest opacity-40">Aucun souvenir partagé ici.</p>
+                    <p class="text-[#561c24] font-bold text-sm uppercase tracking-widest opacity-40">No stories shared yet.</p>
                 </div>
                 @endforelse
             </div>
         </div>
 
+        {{-- Hidden Form for Photo Update --}}
         <form id="profilePhotoForm" action="{{ route('profile.update-photo') }}" method="POST" enctype="multipart/form-data" class="hidden">
             @csrf
             <input type="file" id="profilePhotoInput" name="photo" onchange="document.getElementById('profilePhotoForm').submit()">
         </form>
 
+        {{-- NEW STORY MODAL (Redesigned Single Column) --}}
         <div x-show="open" x-cloak x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-[#561c24]/60 backdrop-blur-xl">
-            <div @click.away="open = false" class="bg-white rounded-[4rem] shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative border border-white">
-                <div class="p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div @click.away="open = false" class="bg-white rounded-[4rem] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-white">
+                <div class="p-10 lg:p-16">
+                    <header class="mb-10">
+                        <h2 class="text-4xl font-black text-[#561c24] tracking-tight">New Story</h2>
+                        <p class="text-[#c7b7a3] font-bold uppercase text-[10px] tracking-widest mt-2">Document your local discovery</p>
+                    </header>
 
-                    <div>
-                        <header class="mb-10">
-                            <h2 class="text-4xl font-black text-[#561c24] tracking-tight">New Story</h2>
-                            <p class="text-[#c7b7a3] font-bold uppercase text-[10px] tracking-widest mt-2">Document your local discovery</p>
-                        </header>
+                    <form action="{{ route('experiences.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+                        @csrf
 
-                       <form action="{{ route('experiences.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-    @csrf
-    <input type="text" name="title" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" placeholder="Experience Title">
+                        {{-- Title --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">Title</label>
+                            <input type="text" name="title" required
+                                class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]"
+                                placeholder="Name your experience...">
+                        </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {{-- Location & Rating Grid --}}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">Location</label>
+                                <select name="place_id" required
+                                    class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold appearance-none">
+                                    <option value="" disabled selected>Select a place</option>
+                                    @foreach($places as $place)
+                                    <option value="{{ $place->id }}">{{ $place->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-        <select name="place_id" required class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold">
-            @foreach($places as $place)
-                <option value="{{ $place->id }}">{{ $place->name }}</option>
-            @endforeach
-        </select>
-
-        <div class="rounded-2xl border-2 border-[#e8d8c4] p-4 bg-[#f9f5f0]/30">
-            <label class="block text-[10px] font-bold text-[#6d2932] uppercase mb-1">Rating</label>
-            <select name="rating" class="w-full border-none p-0 focus:ring-0 text-[#561c24] bg-transparent font-bold">
-                <option value="5" selected>⭐⭐⭐⭐⭐</option>
-                <option value="4">⭐⭐⭐⭐</option>
-                <option value="3">⭐⭐⭐</option>
-                <option value="2">⭐⭐</option>
-                <option value="1">⭐</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-   
-        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
-            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Moment</label>
-            <select name="time_of_day" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
-                <option value="matin">Matin</option>
-                <option value="après-midi">Après-midi</option>
-                <option value="soir">Soir</option>
-            </select>
-        </div>
-
-        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
-            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Ambiance</label>
-            <select name="ambiance" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
-                <option value="calme">Calme</option>
-                <option value="animé">Animé</option>
-                <option value="festif">Festif</option>
-                <option value="studieux">Studieux</option>
-            </select>
-        </div>
-
-        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
-            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Activité</label>
-            <select name="activity_type" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
-                <option value="travailler">Travailler</option>
-                <option value="étudier">Étudier</option>
-                <option value="se détendre">Détente</option>
-                <option value="amis">Amis/Famille</option>
-            </select>
-        </div>
-
-        <div class="bg-[#f9f5f0] p-4 rounded-2xl">
-            <label class="block text-[10px] font-black text-[#c7b7a3] uppercase mb-2">Affluence</label>
-            <select name="crowd_level" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0">
-                <option value="faible">Faible</option>
-                <option value="moyen">Moyen</option>
-                <option value="élevé">Élevé</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="space-y-1">
-        <label class="text-[10px] font-black text-[#561c24] uppercase tracking-widest ml-2">Location Address</label>
-        <input type="text" name="address" class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]" placeholder="123 Street Name, City...">
-    </div>
-
-    <textarea name="content" rows="4" required class="w-full bg-[#f9f5f0] border-none rounded-3xl p-6 focus:ring-2 focus:ring-[#561c24] text-[#561c24] placeholder:text-[#c7b7a3]" placeholder="Share your story..."></textarea>
-
-    <div class="relative group border-2 border-dashed border-[#e8d8c4] rounded-3xl p-6 text-center hover:bg-[#fdfaf7] transition-all">
-        <input type="file" name="photos[]" multiple class="absolute inset-0 opacity-0 cursor-pointer">
-        <p class="text-xs font-black text-[#561c24] uppercase">Add Photos</p>
-    </div>
-
-    <button type="submit" class="w-full bg-[#561c24] text-white py-5 rounded-3xl font-black uppercase tracking-[0.2em] shadow-2xl hover:scale-[1.02] transition-transform">Publish Experience</button>
-</form>
-                    </div>
-
-                    <div class="hidden lg:block bg-[#f9f5f0] rounded-[3rem] p-8 space-y-6 border border-[#e8d8c4]/30">
-                        <div class="h-full flex flex-col justify-center items-center text-center space-y-4">
-                            <template x-if="images.length === 0">
-                                <div class="space-y-4">
-                                    <div class="w-20 h-20 bg-white rounded-full mx-auto flex items-center justify-center text-[#c7b7a3]">
-                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                        </svg>
-                                    </div>
-                                    <p class="text-[10px] font-black uppercase text-[#c7b7a3] tracking-[0.2em]">Visual Preview Area</p>
-                                </div>
-                            </template>
-
-                            <div class="grid grid-cols-2 gap-4 w-full">
-                                <template x-for="url in images">
-                                    <img :src="url" class="w-full h-40 object-cover rounded-[2rem] shadow-lg animate-fade-in">
-                                </template>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">Overall Rating</label>
+                                <select name="rating" required
+                                    class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold appearance-none">
+                                    <option value="5">Excellent </option>
+                                    <option value="4">Great</option>
+                                    <option value="3">Good </option>
+                                    <option value="2">Fair </option>
+                                    <option value="1">Poor </option>
+                                </select>
                             </div>
                         </div>
-                    </div>
+
+                        {{-- Attributes Grid (4 Columns) --}}
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-[#f9f5f0]/50 border border-[#e8d8c4] p-4 rounded-2xl text-center">
+                                <label class="block text-[9px] font-black text-[#c7b7a3] uppercase mb-2">Best Time</label>
+                                <select name="time_of_day" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0 text-xs text-center appearance-none">
+                                    <option value="morning">Morning</option>
+                                    <option value="afternoon">Afternoon</option>
+                                    <option value="evening">Evening</option>
+                                    <option value="night">Night</option>
+                                </select>
+                            </div>
+
+                            <div class="bg-[#f9f5f0]/50 border border-[#e8d8c4] p-4 rounded-2xl text-center">
+                                <label class="block text-[9px] font-black text-[#c7b7a3] uppercase mb-2">Ambiance</label>
+                                <select name="ambiance" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0 text-xs text-center appearance-none">
+                                    <option value="calm">Calm</option>
+                                    <option value="lively">Lively</option>
+                                    <option value="romantic">Work Friendly</option>
+                                    <option value="festive">Festive</option>
+                                </select>
+                            </div>
+
+                            <div class="bg-[#f9f5f0]/50 border border-[#e8d8c4] p-4 rounded-2xl text-center">
+                                <label class="block text-[9px] font-black text-[#c7b7a3] uppercase mb-2">Activity</label>
+                                <select name="activity_type" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0 text-xs text-center appearance-none">
+                                    <option value="">Activity Type</option>
+                                    <option value="food">Food & Drink</option>
+                                    <option value="nature">Nature</option>
+                                    <option value="culture">Culture</option>
+                                    <option value="sport">Sport</option>
+                                    <option value="work">Work</option>
+                                    <option value="study">Study</option>
+                                    <option value="relax">Relax</option>
+                                    <option value="social">Social</option>
+                                </select>
+                            </div>
+
+                            <div class="bg-[#f9f5f0]/50 border border-[#e8d8c4] p-4 rounded-2xl text-center">
+                                <label class="block text-[9px] font-black text-[#c7b7a3] uppercase mb-2">Crowd</label>
+                                <select name="crowd_level" class="w-full bg-transparent border-none p-0 text-[#561c24] font-bold focus:ring-0 text-xs text-center appearance-none">
+                                    <option value="low">Quiet</option>
+                                    <option value="moderate">Moderate</option>
+                                    <option value="high">Crowded</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {{-- Story Content --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">The Story</label>
+                            <textarea name="content" rows="4" required
+                                class="w-full bg-[#f9f5f0] border-none rounded-3xl p-6 focus:ring-2 focus:ring-[#561c24] text-[#561c24] placeholder:text-[#c7b7a3] leading-relaxed"
+                                placeholder="Share the highlights of your visit..."></textarea>
+                        </div>
+
+                        {{-- Photo Upload --}}
+                        <div class="relative border-2 border-dashed border-[#e8d8c4] rounded-3xl p-8 text-center hover:bg-[#f9f5f0] hover:border-[#561c24] transition-all group">
+                            <input type="file" name="photos[]" multiple class="absolute inset-0 opacity-0 cursor-pointer">
+                            <div class="flex flex-col items-center gap-2">
+                                <svg class="w-6 h-6 text-[#c7b7a3] group-hover:text-[#561c24] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <p class="text-xs font-black text-[#561c24] uppercase tracking-widest">Attach Photos</p>
+                            </div>
+                        </div>
+
+                        {{-- Submit Button --}}
+                        <button type="submit"
+                            class="w-full bg-[#561c24] text-white py-5 rounded-3xl font-black uppercase tracking-[0.3em] shadow-[0_20px_40px_-10px_rgba(86,28,36,0.3)] hover:bg-[#6d2932] transition-all duration-300">
+                            Share Experience
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

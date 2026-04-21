@@ -11,27 +11,35 @@ class ExperienceFeed extends Component
     use WithPagination;
 
     public $search = '';
-    public function updatingSearch()
+    public $rating = '';
+    public $time_of_day = '';
+    public $ambiance = '';
+    public $activity_type = '';
+    public $crowd_level = '';
+
+    public function updated($propertyName)
     {
         $this->resetPage();
     }
 
     public function render()
     {
-        $experiences = Experience::query()
+        $query = Experience::query()
             ->with(['user', 'photos', 'place'])
-            ->where(function($query) {
-                $query->where('title', 'like', '%' . $this->search . '%')
-                      ->orWhere('content', 'like', '%' . $this->search . '%')
-                      ->orWhereHas('place', function($q) {
-                          $q->where('name', 'like', '%' . $this->search . '%');
-                      });
-            })
-            ->latest()
-            ->get(); 
+          
+            ->where(fn($q) => 
+                $q->where('title', 'like', '%' . $this->search . '%')
+                  ->orWhere('content', 'like', '%' . $this->search . '%')
+            )
+         
+            ->when($this->rating, fn($q) => $q->where('rating', '>=', $this->rating))
+            ->when($this->time_of_day, fn($q) => $q->where('time_of_day', $this->time_of_day))
+            ->when($this->ambiance, fn($q) => $q->where('ambiance', $this->ambiance))
+            ->when($this->activity_type, fn($q) => $q->where('activity_type', $this->activity_type))
+            ->when($this->crowd_level, fn($q) => $q->where('crowd_level', $this->crowd_level));
 
         return view('livewire.experience-feed', [
-            'experiences' => $experiences
+            'experiences' => $query->latest()->get()
         ]);
     }
 }
