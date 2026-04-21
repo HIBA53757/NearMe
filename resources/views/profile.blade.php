@@ -180,7 +180,6 @@
                             </div>
                         </div>
 
-                        {{-- Attributes Grid (4 Columns) --}}
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             <div class="bg-[#f9f5f0]/50 border border-[#e8d8c4] p-4 rounded-2xl text-center">
                                 <label class="block text-[9px] font-black text-[#c7b7a3] uppercase mb-2">Best Time</label>
@@ -227,7 +226,6 @@
                             </div>
                         </div>
 
-                        {{-- Story Content --}}
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">The Story</label>
                             <textarea name="content" rows="4" required
@@ -235,7 +233,6 @@
                                 placeholder="Share the highlights of your visit..."></textarea>
                         </div>
 
-                        {{-- Photo Upload --}}
                         <div class="relative border-2 border-dashed border-[#e8d8c4] rounded-3xl p-8 text-center hover:bg-[#f9f5f0] hover:border-[#561c24] transition-all group">
                             <input type="file" name="photos[]" multiple class="absolute inset-0 opacity-0 cursor-pointer">
                             <div class="flex flex-col items-center gap-2">

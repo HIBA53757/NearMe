@@ -13,7 +13,7 @@ return new class extends Migration
     {
        Schema::create('photos', function (Blueprint $table) {
     $table->id();
-    $table->string('path'); // image url or file path
+    $table->string('path');
 
     $table->foreignId('experience_id')->constrained()->onDelete('cascade');
 
