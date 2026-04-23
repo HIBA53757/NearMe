@@ -12,10 +12,18 @@ class ExperienceController extends Controller
 {
    public function index()
 {
-    
-    $allExperiences = Experience::with(['user', 'photos', 'place'])->latest()->get();
+    // Fetch experiences for the Dashboard
+    $experiences = Experience::with(['user', 'photos', 'place'])->latest()->get();
+    return view('dashboard', compact('experiences'));
+}
 
-    return view('dashboard', ['experiences' => $allExperiences]);
+public function map()
+{
+    // Fetch the same experiences for the Map View
+    $experiences = Experience::with(['user', 'photos', 'place'])->latest()->get();
+    
+    // We pass them to 'mapcard' instead of 'dashboard'
+    return view('mapcard', compact('experiences'));
 }
 
 public function store(Request $request)

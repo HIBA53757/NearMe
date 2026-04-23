@@ -26,7 +26,7 @@ Route::middleware(['auth', 'check_banned', 'can:access-user'])->group(function (
     Route::patch('/profile/bio', [ProfileController::class, 'updateBio'])->name('profile.update-bio');
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
 
-    Route::get('/mapcard', function () { return view('mapcard'); })->name('mapcard');
+  Route::get('/mapcard', [ExperienceController::class, 'map'])->name('mapcard');
 });
 
 
