@@ -5,18 +5,20 @@
         <h2 class="text-2xl font-bold text-[#561c24] mb-6">Nearby Experiences</h2>
         
         <div id="experience-list" class="space-y-4">
-            @foreach($experiences as $experience)
-                <div class="experience-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 transition hover:shadow-md cursor-pointer" 
-                     data-lat="{{ $experience->latitude }}" 
-                     data-lng="{{ $experience->longitude }}"
-                     data-location-id="{{ $experience->location_id }}">
-                    
-                    <img src="{{ asset('storage/' . $experience->image) }}" class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h3 class="font-semibold text-lg">{{ $experience->title }}</h3>
-                    <p class="text-sm text-gray-500">{{ $experience->ambiance }} • {{ $experience->moment }}</p>
-                    <p class="text-xs text-gray-400 mt-2">Distance: {{ $experience->distance }}km</p>
-                </div>
-            @endforeach
+           @foreach($experiences as $experience)
+    <div class="experience-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 transition hover:shadow-md cursor-pointer" 
+         data-lat="{{ $experience->place->latitude ?? '' }}" 
+         data-lng="{{ $experience->place->longitude ?? '' }}"
+         data-location-id="{{ $experience->place_id }}">
+        
+        <img src="{{ $experience->photos->first() ? asset('storage/' . $experience->photos->first()->path) : 'https://via.placeholder.com/400x300' }}" 
+             class="w-full h-40 object-cover rounded-lg mb-3">
+             
+        <h3 class="font-semibold text-lg">{{ $experience->title }}</h3>
+        <p class="text-sm text-gray-500">{{ $experience->ambiance }} • {{ $experience->time_of_day }}</p>
+        <p class="text-xs text-gray-400 mt-2">At: {{ $experience->place->name ?? 'Unknown Location' }}</p>
+    </div>
+@endforeach
         </div>
     </div>
 

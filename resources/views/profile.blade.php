@@ -2,7 +2,6 @@
     <div x-data="{ open: false, editBio: false, images: [] }" class="min-h-screen bg-[#fdfaf7] py-12 px-4 lg:px-8">
         <div class="max-w-6xl mx-auto space-y-16">
 
-            {{-- Profile Header Section --}}
             <div class="relative">
                 <div class="absolute -top-10 -left-10 w-64 h-64 bg-[#e8d8c4] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
                 <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-[#561c24] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
@@ -69,7 +68,7 @@
                 </div>
             </div>
 
-            {{-- Gallery Title & Share Button --}}
+
             <div class="flex flex-col sm:flex-row justify-between items-end gap-6 px-4">
                 <div class="space-y-2">
                     <h4 class="text-4xl font-black text-[#561c24] tracking-tighter">Personal Gallery</h4>
@@ -85,7 +84,6 @@
                 </button>
             </div>
 
-            {{-- Gallery Cards --}}
             <div class="columns-1 sm:columns-2 lg:columns-4 gap-6 space-y-6 px-4">
                 @forelse($myExperiences as $exp)
                 <a href="{{ route('experiences.show', ['experience' => $exp->id, 'from' => 'profile']) }}" class="block break-inside-avoid bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(86,28,36,0.2)] transition-all duration-500 border border-gray-100 group">
@@ -128,13 +126,11 @@
             </div>
         </div>
 
-        {{-- Hidden Form for Photo Update --}}
         <form id="profilePhotoForm" action="{{ route('profile.update-photo') }}" method="POST" enctype="multipart/form-data" class="hidden">
             @csrf
             <input type="file" id="profilePhotoInput" name="photo" onchange="document.getElementById('profilePhotoForm').submit()">
         </form>
 
-        {{-- NEW STORY MODAL (Redesigned Single Column) --}}
         <div x-show="open" x-cloak x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-[#561c24]/60 backdrop-blur-xl">
             <div @click.away="open = false" class="bg-white rounded-[4rem] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-white">
                 <div class="p-10 lg:p-16">
@@ -146,7 +142,6 @@
                     <form action="{{ route('experiences.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                         @csrf
 
-                        {{-- Title --}}
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">Title</label>
                             <input type="text" name="title" required
@@ -154,7 +149,6 @@
                                 placeholder="Name your experience...">
                         </div>
 
-                        {{-- Location & Rating Grid --}}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">Location</label>
@@ -165,6 +159,12 @@
                                     <option value="{{ $place->id }}">{{ $place->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-[#561c24] uppercase tracking-[0.2em] ml-2">Specific Address</label>
+                                <input type="text" name="address"
+                                    class="w-full bg-[#f9f5f0] border-none rounded-2xl p-5 focus:ring-2 focus:ring-[#561c24] text-[#561c24] font-bold placeholder:text-[#c7b7a3]"
+                                    placeholder="e.g. 123 Avenue Mohammed V, Nador">
                             </div>
 
                             <div class="space-y-2">
@@ -243,7 +243,7 @@
                             </div>
                         </div>
 
-                        {{-- Submit Button --}}
+
                         <button type="submit"
                             class="w-full bg-[#561c24] text-white py-5 rounded-3xl font-black uppercase tracking-[0.3em] shadow-[0_20px_40px_-10px_rgba(86,28,36,0.3)] hover:bg-[#6d2932] transition-all duration-300">
                             Share Experience
