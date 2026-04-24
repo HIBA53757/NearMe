@@ -45,7 +45,7 @@
         if (lat && lng) {
           
             const marker = L.circleMarker([lat, lng], {
-                color: '#561c24', // Your Deep Burgundy
+                color: '#561c24', 
                 fillColor: '#561c24',
                 fillOpacity: 0.8,
                 radius: 8
